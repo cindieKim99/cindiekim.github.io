@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Company supported trials</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+
+
+  <style>
+    body {
+      display: flex;
+      flex-direction: row;
+      min-height: 100vh;
+    }
+
+    #toc {
+      position: fixed; /* Add this line */
+      flex: 0 0 250px;
+      padding: 1rem;
+      height: 100%;
+      overflow-y: auto;
+      background-color: #f8f8f8;
+      border-right: 1px solid #eaeaea;
+      max-width: 400px; 
+    }
+
+    .content-area {
+      flex: 1;
+      padding: 1rem;
+      margin-left: 250px; /* Add this line */
+    }
+
+    /* Hide the redundant characters (anchor links) */
+    .anchor-link {
+      display: none;
+    }
+
+    /* Style the nested lists in the sidebar */
+    #toc ol {
+      padding-left: 1.25rem;
+    }
+
+    #toc li {
+      margin-bottom: 0.25rem;
+    }
+  </style>
+
+
+
+
+
+
+<style type="text/css">
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap');
+
+body {
+    background-color: #f5f5f5;
+    margin: 0;
+    font-family: 'Source Sans Pro', sans-serif;
+    color: #333;
+    line-height: 1.5;
+}
+
+footer {
+    font-size: 1.1em;
+    text-align: center;
+    padding: 40px;
+}
+
+a, a:active {
+    color: #3b98d9;
+}
+
+a.anchor-link:link {
+    text-decoration: none;
+    padding-left: 10px;
+    visibility: hidden;
+}
+
+h1:hover .anchor-link,
+h2:hover .anchor-link,
+h3:hover .anchor-link,
+h4:hover .anchor-link,
+h5:hover .anchor-link,
+h6:hover .anchor-link {
+    visibility: visible;
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+.cell {
+    width: 70%;
+    margin: 0 auto;
+}
+
+.code-cell {
+    box-sizing: border-box;
+    margin-top: 20px;
+    color: #f5f5f5;
+    border-radius: 5px;
+}
+
+.code-cell .code-line-nr {
+    vertical-align: top;
+    text-align: right;
+    padding-right: 10px;
+    user-select: none;
+}
+
+.code-cell .code-line {
+    white-space: pre-wrap;
+    color: #f5f5f5;
+}
+
+.code-cell .output-separator {
+    margin: 15px 0;
+    border: 1px solid #f5f5f5;
+    background-color: #f5f5f5;
+    border-radius: 1px;
+}
+
+/* string */
+.code-cell .code-line .s1,
+.code-cell .code-line .s2 {
+    color: #7ab5c5;
+}
+
+/* comment */
+.code-cell .code-line .c1 {
+    color: #9c9c9c;
+}
+
+/* number */
+.code-cell .code-line .mi {
+    color: #e27c7c;
+}
+
+/* keywords */
+.code-cell .code-line .k,
+.code-cell .code-line .kn,
+.code-cell .code-line .ow {
+    color: #f9b454;
+}
+
+/* dataframe */
+.dataframe {
+    border-collapse: collapse;
+}
+
+.dataframe td,
+.dataframe th {
+    border: 2px solid #f5f5f5;
+    padding: 5px;
+}
+
+/* responsive */
+@media screen and (max-width: 1024px) {
+    .cell {
+        width: 80%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .cell {
+        width: 90%;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .cell {
+        width: calc(100% - 20px);
+        margin: 20px 10px 0 10px;
+    }
+}
+</style>
+
+
+<!-- Load mathjax -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS_CHTML-full,Safe"> </script>
+    <!-- MathJax configuration -->
+    <script type="text/x-mathjax-config">
+    init_mathjax = function() {
+        if (window.MathJax) {
+        // MathJax loaded
+            MathJax.Hub.Config({
+                TeX: {
+                    equationNumbers: {
+                    autoNumber: "AMS",
+                    useLabelIds: true
+                    }
+                },
+                tex2jax: {
+                    inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+                    processEscapes: true,
+                    processEnvironments: true
+                },
+                displayAlign: 'center',
+                CommonHTML: {
+                    linebreaks: {
+                    automatic: true
+                    }
+                }
+            });
+
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+        }
+    }
+    init_mathjax();
+    </script>
+    <!-- End of mathjax configuration --></head><body>
+  
+    <div id="toc">
+      <h2>Table of Contents</h2>
+      <ol id="toc-list"></ol>
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        function createTableOfContents() {
+          const headings = document.querySelectorAll('.content-area h1, .content-area h2, .content-area h3, .content-area h4, .content-area h5, .content-area h6');
+          const list = document.querySelector('#toc-list');
+
+          headings.forEach((heading) => {
+            const listItem = document.createElement('li');
+            const link = document.createElement('a');
+
+            // Remove the anchor links before extracting the text content
+            const anchorLink = heading.querySelector('.anchor-link');
+            if (anchorLink) {
+              anchorLink.remove();
+            }
+
+            const anchorName = heading.textContent.replace(/\s+/g, '-').toLowerCase();
+            heading.id = anchorName;
+            link.href = `#${anchorName}`;
+            link.textContent = heading.textContent;
+
+            listItem.appendChild(link);
+            list.appendChild(listItem);
+          });
+        }
+
+        createTableOfContents();
+      });
+    </script>
+  
+  <div class="content-area"><div class="cell code-cell code-cell-no-input">
+
+<hr class="output-separator">
+
+<div class="">
+        <script type="text/javascript">
+        window.PlotlyConfig = {MathJaxConfig: 'local'};
+        if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}
+        if (typeof require !== 'undefined') {
+        require.undef("plotly");
+        requirejs.config({
+            paths: {
+                'plotly': ['https://cdn.plot.ly/plotly-2.16.1.min']
+            }
+        });
+        require(['plotly'], function(Plotly) {
+            window._Plotly = Plotly;
+        });
+        }
+        </script>
+        
+</div>
+
+
+</div>
+<div class="cell cell-markdown">
+<h1 id="Background-of-the-analysis">Background of the analysis<a class="anchor-link" href="#Background-of-the-analysis">&#182;</a></h1><p>The analysis delves into the crucial aspect of industry-sponsored trials, which serves as a significant indicator for assessing the overall research and development (R&amp;D) health of the biopharmaceutical industry. By examining the landscape of trials initiated by industry sponsors, valuable insights can be gained about the industry's progress and trajectory. However, focusing solely on trial initiations may not provide a comprehensive picture. Therefore, a deeper analysis that includes the examination of trial completions adds a layer of granularity, offering a more nuanced perspective on the performance and success of industry pipelines.</p>
+<p>Assessing the completion of trials provides essential information about the efficiency and effectiveness of the biopharmaceutical industry's R&amp;D efforts. It sheds light on how well these pipelines are faring, highlighting whether the trials initiated by industry sponsors are successfully reaching their intended endpoints. This additional layer of analysis allows for a more thorough evaluation of the industry's ability to translate promising research into tangible outcomes, such as new therapies, innovative drugs, or medical advancements.</p>
+
+</div>
+<div class="cell cell-markdown">
+<h1 id="Approaches">Approaches<a class="anchor-link" href="#Approaches">&#182;</a></h1><p>Based on research about industry-sponsored trials completed in 2018: <a href="https://pharmaintelligence.informa.com/~/media/informa-shop-window/pharma/2019/files/pdf/trialtrove-2018-completed-trials-state-of-industry-sponsored-clinical-development.pdf">https://pharmaintelligence.informa.com/~/media/informa-shop-window/pharma/2019/files/pdf/trialtrove-2018-completed-trials-state-of-industry-sponsored-clinical-development.pdf</a></p>
+<p>Based on the results of our analysis, we identify and report the key findings and insights that emerge from the landscape of clinical trials completed in 2018. These may include significant advancements in specific therapeutic areas, emerging research trends, challenges faced by researchers, or notable geographical disparities in trial activity.</p>
+<p>Moreover, in addition to the aforementioned analysis, I will also explore the potential impact of the advancement of machine learning on the success rate of clinical trials. By investigating the integration of machine learning techniques into the design, implementation, and analysis of clinical trials, I aim to evaluate how this technological advancement influences the efficacy, efficiency, and overall outcomes of these trials.</p>
+
+</div>
+<div class="cell cell-markdown">
+<h1 id="Clinical-Trials-by-Therapeutic-Area">Clinical Trials by Therapeutic Area<a class="anchor-link" href="#Clinical-Trials-by-Therapeutic-Area">&#182;</a></h1>
+</div><div class="cell code-cell code-cell-no-input">
+
+<hr class="output-separator">
+
+<div class="">
+<div>                            <div id="712d3076-64b8-4c18-b36d-140070f26b20" class="plotly-graph-div" style="height:525px; width:100%;"></div>            <script type="text/javascript">                require(["plotly"], function(Plotly) {                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("712d3076-64b8-4c18-b36d-140070f26b20")) {                    Plotly.newPlot(                        "712d3076-64b8-4c18-b36d-140070f26b20",                        [{"name":"Oncology","x":["2018","2017","2016","2015"],"y":[1112,910,826,764],"type":"bar"},{"name":"Autoimmune/Inflammation","x":["2018","2017","2016","2015"],"y":[783,656,677,542],"type":"bar"},{"name":"Metabolic/Endocrinology","x":["2018","2017","2016","2015"],"y":[760,484,516,495],"type":"bar"},{"name":"CNS","x":["2018","2017","2016","2015"],"y":[758,582,547,562],"type":"bar"},{"name":"Cardiovascular","x":["2018","2017","2016","2015"],"y":[630,309,249,247],"type":"bar"},{"name":"Infectious Diseasesb","x":["2018","2017","2016","2015"],"y":[551,401,435,453],"type":"bar"},{"name":"Vaccines","x":["2018","2017","2016","2015"],"y":[171,157,149,178],"type":"bar"},{"name":"Genitourinary","x":["2018","2017","2016","2015"],"y":[109,78,72,70],"type":"bar"},{"name":"Ophthalmology","x":["2018","2017","2016","2015"],"y":[85,82,80,93],"type":"bar"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"title":{"text":"Clinical Trial Count by Therapeutic Area"},"xaxis":{"title":{"text":"Year"}},"yaxis":{"title":{"text":"Trial Count"}},"barmode":"stack"},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('712d3076-64b8-4c18-b36d-140070f26b20');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };                });            </script>        </div>
+</div>
+
+
+</div>
+<div class="cell cell-markdown">
+<p>The chart represents the clinical trial count by therapeutic area over the years 2015 to 2018. Each bar in the chart corresponds to a specific therapeutic area, and the height of the bar represents the number of clinical trials conducted in that area for each year.</p>
+<p>Oncology has consistently had the highest number of clinical trials across all years, indicating its prominence in medical research. It maintains the top position throughout the four-year period.</p>
+<p>Autoimmune/Inflammation and Metabolic/Endocrinology therapeutic areas have been consistently ranked second and third in terms of the number of clinical trials. However, there is a slight variation in rankings between these two areas, with Autoimmune/Inflammation being ranked higher in the first three years and Metabolic/Endocrinology taking the second position in the last year.</p>
+<p>CNS (Central Nervous System) and Cardiovascular areas show some variability in rankings over the years. CNS starts as the fourth-ranked area in 2015, moves to third in 2016 and 2017, and then drops to fourth again in 2018. Cardiovascular follows a similar pattern, starting as the third-ranked area in 2015, moving to the second position in 2016 and 2017, and then dropping to the third position in 2018.</p>
+<p>Infectious Diseases, Vaccines, Genitourinary, and Ophthalmology therapeutic areas consistently rank lower in terms of the number of clinical trials conducted compared to the other areas. They occupy the fifth to eighth positions throughout the four-year period.</p>
+<p>Overall, the chart provides insights into the distribution of clinical trials across various therapeutic areas and their relative prominence in medical research.</p>
+
+</div>
+<div class="cell cell-markdown">
+<h1 id="Success-rates-of-dieases-with-over-%3E30-completed-trials">Success rates of dieases with over &gt;30 completed trials<a class="anchor-link" href="#Success-rates-of-dieases-with-over-%3E30-completed-trials">&#182;</a></h1>
+</div><div class="cell code-cell code-cell-no-input">
+
+<hr class="output-separator">
+
+<div class="">
+<div>                            <div id="a1cbe075-9d97-474c-91c5-71ce6a552284" class="plotly-graph-div" style="height:525px; width:100%;"></div>            <script type="text/javascript">                require(["plotly"], function(Plotly) {                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("a1cbe075-9d97-474c-91c5-71ce6a552284")) {                    Plotly.newPlot(                        "a1cbe075-9d97-474c-91c5-71ce6a552284",                        [{"x":["Breast","Non-small cell lung cancer","Type 2 diabetes","Colorectal cancer","Non-Hodgkin\u2019s lymphoma","Respiratory infections","Psoriasis","Anemia","Prostate","Melanoma"],"y":[79,67,51,47,44,42,33,33,33,31],"type":"bar"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"title":{"text":"Total Trials by Disease"},"xaxis":{"title":{"text":"Disease"}},"yaxis":{"title":{"text":"Total Trials"}}},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('a1cbe075-9d97-474c-91c5-71ce6a552284');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };                });            </script>        </div>
+</div>
+
+
+</div>
+<div class="cell cell-markdown">
+<p>The chart represents the total number of trials conducted for different diseases. Each bar in the chart corresponds to a specific disease, and the height of the bar represents the total number of trials conducted for that disease.</p>
+<p>Anemia has the highest number of total trials among the listed diseases, with a bar height of 33. This indicates that anemia has been a significant focus of clinical research.</p>
+<p>Breast and non-small cell lung cancer are the next two diseases with the highest total trial counts, with bars heights of 67 and 51, respectively. These diseases also show substantial research interest.</p>
+<p>Colorectal cancer, non-Hodgkin’s lymphoma, prostate cancer, and melanoma have relatively lower total trial counts compared to the top three diseases but still have significant research efforts, with trial counts ranging from 31 to 47.</p>
+<p>Type 2 diabetes, respiratory infections, and psoriasis have lower total trial counts among the listed diseases, with trial counts ranging from 14 to 51.</p>
+<p>Anemia is ranked first among the diseases in terms of total trials, while type 2 diabetes is ranked ninth. This ranking is based on the total trial count and indicates the relative focus of research on different diseases.</p>
+<p>The percentage of all trials column provides insights into the distribution of trials across diseases relative to the total number of trials conducted. Anemia and breast cancer account for a significant percentage of all trials, with 35.8% and 32.4%, respectively.</p>
+
+</div><div class="cell code-cell code-cell-no-input">
+
+<hr class="output-separator">
+
+<div class="">
+<div>                            <div id="4b0a85f2-6979-4b78-bd1d-57d563838b66" class="plotly-graph-div" style="height:525px; width:100%;"></div>            <script type="text/javascript">                require(["plotly"], function(Plotly) {                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("4b0a85f2-6979-4b78-bd1d-57d563838b66")) {                    Plotly.newPlot(                        "4b0a85f2-6979-4b78-bd1d-57d563838b66",                        [{"x":["Breast","Non-small cell lung cancer","Type 2 diabetes","Colorectal cancer","Non-Hodgkin\u2019s lymphoma","Respiratory infections","Psoriasis","Anemia","Prostate","Melanoma"],"y":[35.1,32.4,17.1,29.4,25.4,14.0,28.2,35.8,30.3,30.4],"type":"bar"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"title":{"text":"Success rates by Diseases"},"xaxis":{"title":{"text":"Disease"}},"yaxis":{"title":{"text":"% of all trials"}}},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('4b0a85f2-6979-4b78-bd1d-57d563838b66');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };                });            </script>        </div>
+</div>
+
+
+</div>
+<div class="cell cell-markdown">
+<p>The chart represents the success rates of clinical trials for different diseases. Each bar in the chart corresponds to a specific disease, and the height of the bar represents the percentage of successful trials for that disease out of all trials conducted.</p>
+<p>Anemia has the highest success rate among the listed diseases, with a bar height of 35.8%. This indicates that a relatively high percentage of clinical trials conducted for anemia have been successful.</p>
+<p>Breast cancer and non-small cell lung cancer have the second and third highest success rates, with bar heights of 32.4% and 29.4%, respectively. These diseases also have a considerable percentage of successful trials.</p>
+<p>Psoriasis, melanoma, and respiratory infections have relatively lower success rates compared to the top three diseases, with bar heights ranging from 14.0% to 17.1%. These diseases show a lower percentage of successful trials.</p>
+<p>Type 2 diabetes and non-Hodgkin’s lymphoma have success rates between 25.4% and 28.2%, indicating a moderate percentage of successful trials.</p>
+<p>Colorectal cancer, prostate cancer, and melanoma have success rates ranging from 28.2% to 30.4%, which is closer to the overall average success rate among the listed diseases.</p>
+<p>The ranking of diseases based on success rates does not follow the same order as the ranking based on the total number of trials. Anemia, despite having the highest success rate, is ranked first in terms of success rates. This indicates that success rates do not necessarily correlate with the total number of trials conducted for a disease.</p>
+<p>Overall, the chart provides insights into the success rates of clinical trials for different diseases, highlighting the diseases with higher success rates and indicating the variability in success rates across different diseases.</p>
+
+</div>
+<div class="cell cell-markdown">
+<h1 id="Sponsor-types-and-trial-phases">Sponsor types and trial phases<a class="anchor-link" href="#Sponsor-types-and-trial-phases">&#182;</a></h1>
+</div><div class="cell code-cell code-cell-no-input">
+
+<hr class="output-separator">
+
+<div class="">
+<div>                            <div id="245c332f-0b9f-4bdb-bd1e-9f2299b96b38" class="plotly-graph-div" style="height:525px; width:100%;"></div>            <script type="text/javascript">                require(["plotly"], function(Plotly) {                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("245c332f-0b9f-4bdb-bd1e-9f2299b96b38")) {                    Plotly.newPlot(                        "245c332f-0b9f-4bdb-bd1e-9f2299b96b38",                        [{"x":["All Other Pharma","Top 20 Pharma","Generics","Academic","Government Agencies","Cooperative Group","Not-for-Profit","Contract Research Organization","Diagnostics or Device","Drug Delivery"],"y":[2428,1736,844,611,198,174,33,40,17,10],"type":"bar"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"title":{"text":"Total Trials by Sponsor Type"},"xaxis":{"title":{"text":"Sponsor Type"}},"yaxis":{"title":{"text":"Total Trials"}}},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('245c332f-0b9f-4bdb-bd1e-9f2299b96b38');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };                });            </script>        </div>
+</div>
+
+
+</div>
+<div class="cell cell-markdown">
+<p>The chart represents the total number of trials conducted by different sponsor types. Each bar in the chart corresponds to a specific sponsor type, and the height of the bar represents the total number of trials conducted by that sponsor type.</p>
+<p>All Other Pharma and Top 20 Pharma are the two sponsor types with the highest total trial counts, with bar heights of 1736 and 2428, respectively. These sponsor types have conducted a significant number of trials.</p>
+<p>Generics, Academic, and Government Agencies are the next three sponsor types with relatively high total trial counts, with bar heights ranging from 611 to 844. These sponsor types also show substantial involvement in clinical trials.</p>
+<p>Cooperative Group, Not-for-Profit, Contract Research Organization, Diagnostics or Device, and Drug Delivery have lower total trial counts compared to the top five sponsor types. These sponsor types have conducted a smaller number of trials, with bar heights ranging from 10 to 40.</p>
+<p>The ranking of sponsor types based on total trial counts provides insights into the distribution of trials across different sponsors. All Other Pharma, Top 20 Pharma, and Generics are the top three sponsor types in terms of the total number of trials conducted.</p>
+<p>Overall, the chart gives an overview of the total number of trials conducted by different sponsor types, highlighting the sponsor types with the highest research involvement and providing insights into the distribution of trials across different sponsors.</p>
+
+</div><div class="cell code-cell code-cell-no-input">
+
+<hr class="output-separator">
+
+<div class="">
+<div>                            <div id="98a3a8a6-10b3-4012-a6fd-20dc900b0c3d" class="plotly-graph-div" style="height:525px; width:100%;"></div>            <script type="text/javascript">                require(["plotly"], function(Plotly) {                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("98a3a8a6-10b3-4012-a6fd-20dc900b0c3d")) {                    Plotly.newPlot(                        "98a3a8a6-10b3-4012-a6fd-20dc900b0c3d",                        [{"name":"Phase I","x":["All Other Pharma","Top 20 Pharma","Generics","Academic","Government Agencies","Cooperative Group","Not-for-Profit","Contract Research Organization","Diagnostics or Device","Drug Delivery"],"y":[1005,610,738,163,57,28,11,7,4,2],"type":"bar"},{"name":"Phase I/II","x":["All Other Pharma","Top 20 Pharma","Generics","Academic","Government Agencies","Cooperative Group","Not-for-Profit","Contract Research Organization","Diagnostics or Device","Drug Delivery"],"y":[189,107,1,99,42,21,2,7,3,2],"type":"bar"},{"name":"Phase II","x":["All Other Pharma","Top 20 Pharma","Generics","Academic","Government Agencies","Cooperative Group","Not-for-Profit","Contract Research Organization","Diagnostics or Device","Drug Delivery"],"y":[684,480,26,260,69,92,13,6,8,2],"type":"bar"},{"name":"Phase II/III","x":["All Other Pharma","Top 20 Pharma","Generics","Academic","Government Agencies","Cooperative Group","Not-for-Profit","Contract Research Organization","Diagnostics or Device","Drug Delivery"],"y":[43,22,6,14,2,2,7,20,4,6],"type":"bar"},{"name":"Phase III","x":["All Other Pharma","Top 20 Pharma","Generics","Academic","Government Agencies","Cooperative Group","Not-for-Profit","Contract Research Organization","Diagnostics or Device","Drug Delivery"],"y":[500.0,509.0,73.0,71.0,27.0,30.0,33.0,null,17.0,null],"type":"bar"},{"name":"Phase III/IV","x":["All Other Pharma","Top 20 Pharma","Generics","Academic","Government Agencies","Cooperative Group","Not-for-Profit","Contract Research Organization","Diagnostics or Device","Drug Delivery"],"y":[7.0,8.0,844.0,4.0,1.0,1.0,null,null,null,null],"type":"bar"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"title":{"text":"Trials by Phase and Sponsor Type"},"xaxis":{"title":{"text":"Sponsor Type"}},"yaxis":{"title":{"text":"Number of Trials"}},"barmode":"stack"},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('98a3a8a6-10b3-4012-a6fd-20dc900b0c3d');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };                });            </script>        </div>
+</div>
+
+
+</div>
+<div class="cell cell-markdown">
+<p>The chart represents the distribution of trials by phase (Phase I, Phase I/II, Phase II, Phase II/III, Phase III, and Phase III/IV) for different sponsor types. Each bar in the chart corresponds to a specific sponsor type and is divided into different segments representing the number of trials in each phase.</p>
+<p>All Other Pharma and Top 20 Pharma have the highest number of trials across all phases. These sponsor types show significant involvement in trials across all phases, with the highest concentration in Phase II.</p>
+<p>Generics and Academic also have a substantial number of trials across different phases, with a significant concentration in Phase III. Academic sponsor type shows a particularly high number of trials in Phase II.</p>
+<p>Government Agencies, Cooperative Group, and Not-for-Profit have a moderate number of trials across different phases. They show a relatively even distribution of trials among the phases.</p>
+<p>Contract Research Organization, Diagnostics or Device, and Drug Delivery have a smaller number of trials compared to other sponsor types. They have a relatively higher concentration in Phase I and Phase II.</p>
+<p>The stacked bar chart allows for easy comparison of the number of trials conducted by different sponsor types in each phase. It provides a visual representation of the distribution of trials across phases for each sponsor type.</p>
+<p>Overall, the chart provides insights into the distribution of trials by phase for different sponsor types, highlighting the sponsor types with the highest involvement in each phase and showcasing the variability in trial distribution across different sponsor types and phases.</p>
+
+</div><div class="cell code-cell code-cell-no-input">
+
+<hr class="output-separator">
+
+<div class="">
+<div>                            <div id="d24b1f4f-e2da-49ae-b206-c5a96b93add0" class="plotly-graph-div" style="height:525px; width:100%;"></div>            <script type="text/javascript">                require(["plotly"], function(Plotly) {                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("d24b1f4f-e2da-49ae-b206-c5a96b93add0")) {                    Plotly.newPlot(                        "d24b1f4f-e2da-49ae-b206-c5a96b93add0",                        [{"name":"Phase I","x":["Astellas","Celgene","Bristol-Myers Squibb","Merck & Co.","Novartis","Eisai","AstraZeneca","Novo Nordisk","Roche","Takeda","Johnson & Johnson","Boehringer Ingelheim","Pfizer","Gilead","Sanofi","Eli Lilly","Bayer AG","GlaxoSmithKline"],"y":[28.6,30.8,11.5,24.5,24.5,25.0,19.2,5.3,17.0,11.8,15.6,13.5,9.8,0.0,9.1,4.1,9.7,0.0],"type":"bar"},{"name":"Phase I/II","x":["Astellas","Celgene","Bristol-Myers Squibb","Merck & Co.","Novartis","Eisai","AstraZeneca","Novo Nordisk","Roche","Takeda","Johnson & Johnson","Boehringer Ingelheim","Pfizer","Gilead","Sanofi","Eli Lilly","Bayer AG","GlaxoSmithKline"],"y":[100.0,0.0,55.6,57.1,22.2,100.0,44.4,20.0,18.8,36.4,0.0,100.0,25.0,0.0,37.5,50.0,0.0,6.3],"type":"bar"},{"name":"Phase II","x":["Astellas","Celgene","Bristol-Myers Squibb","Merck & Co.","Novartis","Eisai","AstraZeneca","Novo Nordisk","Roche","Takeda","Johnson & Johnson","Boehringer Ingelheim","Pfizer","Gilead","Sanofi","Eli Lilly","Bayer AG","GlaxoSmithKline"],"y":[28.6,50.0,60.7,34.5,41.8,27.3,34.9,50.0,34.0,26.3,25.7,21.4,35.1,31.3,19.4,43.5,45.8,25.5],"type":"bar"},{"name":"Phase II/III","x":["Astellas","Celgene","Bristol-Myers Squibb","Merck & Co.","Novartis","Eisai","AstraZeneca","Novo Nordisk","Roche","Takeda","Johnson & Johnson","Boehringer Ingelheim","Pfizer","Gilead","Sanofi","Eli Lilly","Bayer AG","GlaxoSmithKline"],"y":[65.0,62.5,23.1,55.0,46.7,66.7,50.0,32.1,50.0,46.9,46.9,26.4,40.0,30.8,27.9,100.0,6.7,30.0],"type":"bar"},{"name":"Phase III","x":["Astellas","Celgene","Bristol-Myers Squibb","Merck & Co.","Novartis","Eisai","AstraZeneca","Novo Nordisk","Roche","Takeda","Johnson & Johnson","Boehringer Ingelheim","Pfizer","Gilead","Sanofi","Eli Lilly","Bayer AG","GlaxoSmithKline"],"y":[44.9,44.4,100.0,38.4,100.0,100.0,34.0,null,50.0,100.0,27.0,null,26.0,24.3,100.0,56.7,20.8,17.1],"type":"bar"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"title":{"text":"Trials by Phase and Sponsor"},"xaxis":{"title":{"text":"Sponsor"}},"yaxis":{"title":{"text":"Percentage"}},"barmode":"group"},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('d24b1f4f-e2da-49ae-b206-c5a96b93add0');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };                });            </script>        </div>
+</div>
+
+
+</div>
+<div class="cell cell-markdown">
+<p>The chart represents the success rates of trials conducted by different sponsors across various phases (Phase I, Phase I/II, Phase II, Phase II/III, and Phase III). Each sponsor is represented by a bar, and the bars are grouped by phase, showing the success rate percentage for each phase.</p>
+<p>Astellas, Celgene, Merck &amp; Co., Novartis, and Eisai have a relatively high success rate across all phases. They consistently show higher success rates compared to other sponsors.</p>
+<p>Bristol-Myers Squibb, AstraZeneca, Roche, Eli Lilly, and Bayer AG have varying success rates across different phases. They show relatively higher success rates in Phase II and Phase III.</p>
+<p>Novo Nordisk, Takeda, Johnson &amp; Johnson, Boehringer Ingelheim, Pfizer, and Sanofi show moderate success rates across different phases. Their success rates vary across the phases, with some sponsors showing higher success rates in Phase I/II and others in Phase III.</p>
+<p>Gilead, GlaxoSmithKline, and Drug Delivery have lower success rates compared to other sponsors. Their success rates vary across the phases, with some sponsors showing higher success rates in Phase II/III and others in Phase III.</p>
+<p>The stacked bar chart allows for easy comparison of the success rates of trials conducted by different sponsors across different phases. It provides a visual representation of the success rates for each sponsor in each phase.</p>
+<p>Overall, the chart provides insights into the success rates of trials conducted by different sponsors in each phase, highlighting sponsors with consistently high success rates and showcasing the variability in success rates across sponsors and phases.</p>
+
+</div>
+<div class="cell cell-markdown">
+<h1 id="Trial-outcome-for-top-three-therapeutic-areas:-Oncology,-Autoimmune/Inflammation-and-Metabolic/Endocrinology">Trial outcome for top three therapeutic areas: Oncology, Autoimmune/Inflammation and Metabolic/Endocrinology<a class="anchor-link" href="#Trial-outcome-for-top-three-therapeutic-areas:-Oncology,-Autoimmune/Inflammation-and-Metabolic/Endocrinology">&#182;</a></h1>
+</div><div class="cell code-cell code-cell-no-input">
+
+<hr class="output-separator">
+
+<div class="">
+<div>                            <div id="a4e72cc6-3cf4-4b46-a052-4c6997a28bf2" class="plotly-graph-div" style="height:525px; width:100%;"></div>            <script type="text/javascript">                require(["plotly"], function(Plotly) {                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("a4e72cc6-3cf4-4b46-a052-4c6997a28bf2")) {                    Plotly.newPlot(                        "a4e72cc6-3cf4-4b46-a052-4c6997a28bf2",                        [{"name":"Completed. Negative outcome/primary endpoint(s) not met","x":["GlaxoSmithKline","AstraZeneca","Novartis","Boehringer Ingelheim","Pfizer","Vertex Pharmaceuticals","Eli Lilly","Bristol-Myers Squibb","Roche","Chiesi"],"y":[1,7,4,2,0,0,0,3,1,0],"type":"bar"},{"name":"Completed. Outcome indeterminate","x":["GlaxoSmithKline","AstraZeneca","Novartis","Boehringer Ingelheim","Pfizer","Vertex Pharmaceuticals","Eli Lilly","Bristol-Myers Squibb","Roche","Chiesi"],"y":[4,2,4,0,2,4,2,0,3,4],"type":"bar"},{"name":"Completed. Outcome unknown","x":["GlaxoSmithKline","AstraZeneca","Novartis","Boehringer Ingelheim","Pfizer","Vertex Pharmaceuticals","Eli Lilly","Bristol-Myers Squibb","Roche","Chiesi"],"y":[16,14,13,5,7,5,2,2,4,9],"type":"bar"},{"name":"Completed. Early positive outcome","x":["GlaxoSmithKline","AstraZeneca","Novartis","Boehringer Ingelheim","Pfizer","Vertex Pharmaceuticals","Eli Lilly","Bristol-Myers Squibb","Roche","Chiesi"],"y":[0,0,0,0,0,0,0,0,0,0],"type":"bar"},{"name":"Completed. Positive outcome/primary endpoint(s) met","x":["GlaxoSmithKline","AstraZeneca","Novartis","Boehringer Ingelheim","Pfizer","Vertex Pharmaceuticals","Eli Lilly","Bristol-Myers Squibb","Roche","Chiesi"],"y":[6,8,14,4,5,7,8,3,4,1],"type":"bar"},{"name":"NA","x":["GlaxoSmithKline","AstraZeneca","Novartis","Boehringer Ingelheim","Pfizer","Vertex Pharmaceuticals","Eli Lilly","Bristol-Myers Squibb","Roche","Chiesi"],"y":[13,6,1,15,6,3,4,7,3,1],"type":"bar"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"title":{"text":"Trial outcome For Oncology by Sponsor and Phases"},"xaxis":{"title":{"text":"Sponsor"}},"yaxis":{"title":{"text":"Number of Trials"}},"barmode":"stack"},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('a4e72cc6-3cf4-4b46-a052-4c6997a28bf2');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };                });            </script>        </div>
+</div>
+
+
+</div>
+<div class="cell cell-markdown">
+<p>The chart represents the trial outcomes in the field of oncology for different sponsors across different phases. Each sponsor is represented by a bar, and the bars are stacked to show the distribution of trial outcomes within each sponsor.</p>
+<p>Novartis has the highest number of completed trials, followed by AstraZeneca and GlaxoSmithKline.</p>
+<p>The most common trial outcome across sponsors is &quot;Completed. Outcome unknown,&quot; indicating that the outcome of the trials is not disclosed or publicly available.</p>
+<p>Novartis has the highest number of trials with a positive outcome or meeting the primary endpoint(s), followed by AstraZeneca and Eli Lilly.</p>
+<p>Eli Lilly has the highest success rate among the sponsors, with 50% of their trials resulting in a positive outcome or meeting the primary endpoint(s).</p>
+<p>Chiesi has the lowest number of completed trials and the lowest success rate among the sponsors.</p>
+<p>The stacked bar chart allows for easy comparison of trial outcomes across sponsors and phases. It provides a visual representation of the distribution of trial outcomes within each sponsor and highlights variations in the number of trials and success rates.</p>
+<p>Overall, the chart provides insights into the trial outcomes in oncology for different sponsors and showcases the variability in outcomes across sponsors and phases. It helps identify sponsors with a higher number of completed trials and successful outcomes, as well as those with fewer completed trials and lower success rates.</p>
+
+</div><div class="cell code-cell code-cell-no-input">
+
+<hr class="output-separator">
+
+<div class="">
+<div>                            <div id="6e72cbba-d2e4-433e-aaf0-067908c08a9b" class="plotly-graph-div" style="height:525px; width:100%;"></div>            <script type="text/javascript">                require(["plotly"], function(Plotly) {                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("6e72cbba-d2e4-433e-aaf0-067908c08a9b")) {                    Plotly.newPlot(                        "6e72cbba-d2e4-433e-aaf0-067908c08a9b",                        [{"alignmentgroup":"True","hovertemplate":"Sponsor=%{x}<br>Success Rate=%{y}<extra></extra>","legendgroup":"GlaxoSmithKline","marker":{"color":"#636efa","pattern":{"shape":""}},"name":"GlaxoSmithKline","offsetgroup":"GlaxoSmithKline","orientation":"v","showlegend":true,"textposition":"auto","x":["GlaxoSmithKline"],"xaxis":"x","y":[15.0],"yaxis":"y","type":"bar"},{"alignmentgroup":"True","hovertemplate":"Sponsor=%{x}<br>Success Rate=%{y}<extra></extra>","legendgroup":"AstraZeneca","marker":{"color":"#EF553B","pattern":{"shape":""}},"name":"AstraZeneca","offsetgroup":"AstraZeneca","orientation":"v","showlegend":true,"textposition":"auto","x":["AstraZeneca"],"xaxis":"x","y":[21.6],"yaxis":"y","type":"bar"},{"alignmentgroup":"True","hovertemplate":"Sponsor=%{x}<br>Success Rate=%{y}<extra></extra>","legendgroup":"Novartis","marker":{"color":"#00cc96","pattern":{"shape":""}},"name":"Novartis","offsetgroup":"Novartis","orientation":"v","showlegend":true,"textposition":"auto","x":["Novartis"],"xaxis":"x","y":[38.9],"yaxis":"y","type":"bar"},{"alignmentgroup":"True","hovertemplate":"Sponsor=%{x}<br>Success Rate=%{y}<extra></extra>","legendgroup":"Boehringer Ingelheim","marker":{"color":"#ab63fa","pattern":{"shape":""}},"name":"Boehringer Ingelheim","offsetgroup":"Boehringer Ingelheim","orientation":"v","showlegend":true,"textposition":"auto","x":["Boehringer Ingelheim"],"xaxis":"x","y":[15.4],"yaxis":"y","type":"bar"},{"alignmentgroup":"True","hovertemplate":"Sponsor=%{x}<br>Success Rate=%{y}<extra></extra>","legendgroup":"Pfizer","marker":{"color":"#FFA15A","pattern":{"shape":""}},"name":"Pfizer","offsetgroup":"Pfizer","orientation":"v","showlegend":true,"textposition":"auto","x":["Pfizer"],"xaxis":"x","y":[25.0],"yaxis":"y","type":"bar"},{"alignmentgroup":"True","hovertemplate":"Sponsor=%{x}<br>Success Rate=%{y}<extra></extra>","legendgroup":"Vertex Pharmaceuticals","marker":{"color":"#19d3f3","pattern":{"shape":""}},"name":"Vertex Pharmaceuticals","offsetgroup":"Vertex Pharmaceuticals","orientation":"v","showlegend":true,"textposition":"auto","x":["Vertex Pharmaceuticals"],"xaxis":"x","y":[37.0],"yaxis":"y","type":"bar"},{"alignmentgroup":"True","hovertemplate":"Sponsor=%{x}<br>Success Rate=%{y}<extra></extra>","legendgroup":"Eli Lilly","marker":{"color":"#FF6692","pattern":{"shape":""}},"name":"Eli Lilly","offsetgroup":"Eli Lilly","orientation":"v","showlegend":true,"textposition":"auto","x":["Eli Lilly"],"xaxis":"x","y":[50.0],"yaxis":"y","type":"bar"},{"alignmentgroup":"True","hovertemplate":"Sponsor=%{x}<br>Success Rate=%{y}<extra></extra>","legendgroup":"Bristol-Myers Squibb","marker":{"color":"#B6E880","pattern":{"shape":""}},"name":"Bristol-Myers Squibb","offsetgroup":"Bristol-Myers Squibb","orientation":"v","showlegend":true,"textposition":"auto","x":["Bristol-Myers Squibb"],"xaxis":"x","y":[20.0],"yaxis":"y","type":"bar"},{"alignmentgroup":"True","hovertemplate":"Sponsor=%{x}<br>Success Rate=%{y}<extra></extra>","legendgroup":"Roche","marker":{"color":"#FF97FF","pattern":{"shape":""}},"name":"Roche","offsetgroup":"Roche","orientation":"v","showlegend":true,"textposition":"auto","x":["Roche"],"xaxis":"x","y":[26.7],"yaxis":"y","type":"bar"},{"alignmentgroup":"True","hovertemplate":"Sponsor=%{x}<br>Success Rate=%{y}<extra></extra>","legendgroup":"Chiesi","marker":{"color":"#FECB52","pattern":{"shape":""}},"name":"Chiesi","offsetgroup":"Chiesi","orientation":"v","showlegend":true,"textposition":"auto","x":["Chiesi"],"xaxis":"x","y":[6.7],"yaxis":"y","type":"bar"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"xaxis":{"anchor":"y","domain":[0.0,1.0],"title":{"text":"Sponsor"},"categoryorder":"array","categoryarray":["GlaxoSmithKline","AstraZeneca","Novartis","Boehringer Ingelheim","Pfizer","Vertex Pharmaceuticals","Eli Lilly","Bristol-Myers Squibb","Roche","Chiesi"]},"yaxis":{"anchor":"x","domain":[0.0,1.0],"title":{"text":"Success Rate"}},"legend":{"title":{"text":"Sponsor"},"tracegroupgap":0},"title":{"text":"Success rate For Oncology by Sponsor"},"barmode":"relative"},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('6e72cbba-d2e4-433e-aaf0-067908c08a9b');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };                });            </script>        </div>
+</div>
+
+
+</div>
+<div class="cell cell-markdown">
+<p>The chart represents the success rates in the field of oncology for different sponsors. Each sponsor is represented by a colored bar, and the height of the bar corresponds to the success rate of that sponsor.</p>
+<p>Eli Lilly has the highest success rate among the sponsors, with a success rate of 50%.</p>
+<p>Novartis has the second-highest success rate, followed by AstraZeneca and Vertex Pharmaceuticals.</p>
+<p>Chiesi has the lowest success rate among the sponsors, with a success rate of 6.7%.</p>
+<p>Overall, the chart effectively showcases the success rates of different sponsors in the field of oncology. It helps identify sponsors with higher success rates, which can indicate their expertise or effectiveness in conducting successful trials. Conversely, sponsors with lower success rates may need to evaluate and improve their trial strategies.</p>
+
+</div><div class="cell code-cell code-cell-no-input">
+
+<hr class="output-separator">
+
+<div class="">
+<div>                            <div id="a45a5b7f-b659-43c1-909e-5a18b4d51813" class="plotly-graph-div" style="height:525px; width:100%;"></div>            <script type="text/javascript">                require(["plotly"], function(Plotly) {                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("a45a5b7f-b659-43c1-909e-5a18b4d51813")) {                    Plotly.newPlot(                        "a45a5b7f-b659-43c1-909e-5a18b4d51813",                        [{"name":"Completed. Negative outcome/primary endpoint(s) not met","x":["GlaxoSmithKline","AstraZeneca","Novartis","Boehringer Ingelheim","Pfizer","Vertex Pharmaceuticals","Eli Lilly","Bristol-Myers Squibb","Roche","Chiesi"],"y":[1,7,4,2,0,0,0,3,1,0],"type":"bar"},{"name":"Completed. Outcome indeterminate","x":["GlaxoSmithKline","AstraZeneca","Novartis","Boehringer Ingelheim","Pfizer","Vertex Pharmaceuticals","Eli Lilly","Bristol-Myers Squibb","Roche","Chiesi"],"y":[4,2,4,0,2,4,2,0,3,4],"type":"bar"},{"name":"Completed. Outcome unknown","x":["GlaxoSmithKline","AstraZeneca","Novartis","Boehringer Ingelheim","Pfizer","Vertex Pharmaceuticals","Eli Lilly","Bristol-Myers Squibb","Roche","Chiesi"],"y":[16,14,13,5,7,5,2,2,4,9],"type":"bar"},{"name":"Completed. Early positive outcome","x":["GlaxoSmithKline","AstraZeneca","Novartis","Boehringer Ingelheim","Pfizer","Vertex Pharmaceuticals","Eli Lilly","Bristol-Myers Squibb","Roche","Chiesi"],"y":[0,0,0,0,0,0,0,0,0,0],"type":"bar"},{"name":"Completed. Positive outcome/primary endpoint(s) met","x":["GlaxoSmithKline","AstraZeneca","Novartis","Boehringer Ingelheim","Pfizer","Vertex Pharmaceuticals","Eli Lilly","Bristol-Myers Squibb","Roche","Chiesi"],"y":[6,8,14,4,5,7,8,3,4,1],"type":"bar"},{"name":"NA","x":["GlaxoSmithKline","AstraZeneca","Novartis","Boehringer Ingelheim","Pfizer","Vertex Pharmaceuticals","Eli Lilly","Bristol-Myers Squibb","Roche","Chiesi"],"y":[13,6,1,15,6,3,4,7,3,1],"type":"bar"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"title":{"text":"Trial outcome for Autoimmune/Inflammation by Sponsor and Phases"},"xaxis":{"title":{"text":"Sponsor"}},"yaxis":{"title":{"text":"Number of Trials"}},"barmode":"stack"},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('a45a5b7f-b659-43c1-909e-5a18b4d51813');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };                });            </script>        </div>
+</div>
+
+
+</div>
+<div class="cell cell-markdown">
+<p>The chart represents the trial outcomes in the field of autoimmune/inflammation for different sponsors. Each sponsor is represented by a stacked bar chart, where each section of the bar corresponds to a specific trial outcome category.</p>
+<p>The &quot;Completed. Outcome unknown&quot; category has the highest count for most sponsors, indicating that the outcome of a significant number of trials conducted by these sponsors in the autoimmune/inflammation field is unknown.</p>
+<p>Novartis has the highest number of trials in the &quot;Completed. Positive outcome/primary endpoint(s) met&quot; category, followed by Eli Lilly and Vertex Pharmaceuticals.</p>
+<p>GlaxoSmithKline, AstraZeneca, and Boehringer Ingelheim have a relatively higher number of trials in the &quot;Completed. Negative outcome/primary endpoint(s) not met&quot; category.</p>
+<p>Overall, the chart effectively showcases the trial outcomes of different sponsors in the field of autoimmune/inflammation. It helps identify sponsors with higher or lower counts in specific outcome categories, indicating their performance in conducting trials and the distribution of trial outcomes.</p>
+
+</div><div class="cell code-cell code-cell-no-input">
+
+<hr class="output-separator">
+
+<div class="">
+<div>                            <div id="e33928fd-fbf5-4b9b-9c25-84bc09be3a79" class="plotly-graph-div" style="height:525px; width:100%;"></div>            <script type="text/javascript">                require(["plotly"], function(Plotly) {                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("e33928fd-fbf5-4b9b-9c25-84bc09be3a79")) {                    Plotly.newPlot(                        "e33928fd-fbf5-4b9b-9c25-84bc09be3a79",                        [{"alignmentgroup":"True","hovertemplate":"Sponsor=%{x}<br>Success Rate=%{y}<extra></extra>","legendgroup":"GlaxoSmithKline","marker":{"color":"#636efa","pattern":{"shape":""}},"name":"GlaxoSmithKline","offsetgroup":"GlaxoSmithKline","orientation":"v","showlegend":true,"textposition":"auto","x":["GlaxoSmithKline"],"xaxis":"x","y":[15.0],"yaxis":"y","type":"bar"},{"alignmentgroup":"True","hovertemplate":"Sponsor=%{x}<br>Success Rate=%{y}<extra></extra>","legendgroup":"AstraZeneca","marker":{"color":"#EF553B","pattern":{"shape":""}},"name":"AstraZeneca","offsetgroup":"AstraZeneca","orientation":"v","showlegend":true,"textposition":"auto","x":["AstraZeneca"],"xaxis":"x","y":[21.6],"yaxis":"y","type":"bar"},{"alignmentgroup":"True","hovertemplate":"Sponsor=%{x}<br>Success Rate=%{y}<extra></extra>","legendgroup":"Novartis","marker":{"color":"#00cc96","pattern":{"shape":""}},"name":"Novartis","offsetgroup":"Novartis","orientation":"v","showlegend":true,"textposition":"auto","x":["Novartis"],"xaxis":"x","y":[38.9],"yaxis":"y","type":"bar"},{"alignmentgroup":"True","hovertemplate":"Sponsor=%{x}<br>Success Rate=%{y}<extra></extra>","legendgroup":"Boehringer Ingelheim","marker":{"color":"#ab63fa","pattern":{"shape":""}},"name":"Boehringer Ingelheim","offsetgroup":"Boehringer Ingelheim","orientation":"v","showlegend":true,"textposition":"auto","x":["Boehringer Ingelheim"],"xaxis":"x","y":[15.4],"yaxis":"y","type":"bar"},{"alignmentgroup":"True","hovertemplate":"Sponsor=%{x}<br>Success Rate=%{y}<extra></extra>","legendgroup":"Pfizer","marker":{"color":"#FFA15A","pattern":{"shape":""}},"name":"Pfizer","offsetgroup":"Pfizer","orientation":"v","showlegend":true,"textposition":"auto","x":["Pfizer"],"xaxis":"x","y":[25.0],"yaxis":"y","type":"bar"},{"alignmentgroup":"True","hovertemplate":"Sponsor=%{x}<br>Success Rate=%{y}<extra></extra>","legendgroup":"Vertex Pharmaceuticals","marker":{"color":"#19d3f3","pattern":{"shape":""}},"name":"Vertex Pharmaceuticals","offsetgroup":"Vertex Pharmaceuticals","orientation":"v","showlegend":true,"textposition":"auto","x":["Vertex Pharmaceuticals"],"xaxis":"x","y":[37.0],"yaxis":"y","type":"bar"},{"alignmentgroup":"True","hovertemplate":"Sponsor=%{x}<br>Success Rate=%{y}<extra></extra>","legendgroup":"Eli Lilly","marker":{"color":"#FF6692","pattern":{"shape":""}},"name":"Eli Lilly","offsetgroup":"Eli Lilly","orientation":"v","showlegend":true,"textposition":"auto","x":["Eli Lilly"],"xaxis":"x","y":[50.0],"yaxis":"y","type":"bar"},{"alignmentgroup":"True","hovertemplate":"Sponsor=%{x}<br>Success Rate=%{y}<extra></extra>","legendgroup":"Bristol-Myers Squibb","marker":{"color":"#B6E880","pattern":{"shape":""}},"name":"Bristol-Myers Squibb","offsetgroup":"Bristol-Myers Squibb","orientation":"v","showlegend":true,"textposition":"auto","x":["Bristol-Myers Squibb"],"xaxis":"x","y":[20.0],"yaxis":"y","type":"bar"},{"alignmentgroup":"True","hovertemplate":"Sponsor=%{x}<br>Success Rate=%{y}<extra></extra>","legendgroup":"Roche","marker":{"color":"#FF97FF","pattern":{"shape":""}},"name":"Roche","offsetgroup":"Roche","orientation":"v","showlegend":true,"textposition":"auto","x":["Roche"],"xaxis":"x","y":[26.7],"yaxis":"y","type":"bar"},{"alignmentgroup":"True","hovertemplate":"Sponsor=%{x}<br>Success Rate=%{y}<extra></extra>","legendgroup":"Chiesi","marker":{"color":"#FECB52","pattern":{"shape":""}},"name":"Chiesi","offsetgroup":"Chiesi","orientation":"v","showlegend":true,"textposition":"auto","x":["Chiesi"],"xaxis":"x","y":[6.7],"yaxis":"y","type":"bar"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"xaxis":{"anchor":"y","domain":[0.0,1.0],"title":{"text":"Sponsor"},"categoryorder":"array","categoryarray":["GlaxoSmithKline","AstraZeneca","Novartis","Boehringer Ingelheim","Pfizer","Vertex Pharmaceuticals","Eli Lilly","Bristol-Myers Squibb","Roche","Chiesi"]},"yaxis":{"anchor":"x","domain":[0.0,1.0],"title":{"text":"Success Rate"}},"legend":{"title":{"text":"Sponsor"},"tracegroupgap":0},"title":{"text":"Success rate For Autoimmune/Inflammation by Sponsor"},"barmode":"relative"},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('e33928fd-fbf5-4b9b-9c25-84bc09be3a79');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };                });            </script>        </div>
+</div>
+
+
+</div>
+<div class="cell cell-markdown">
+<p>The chart represents the success rates of sponsors in conducting trials in the field of autoimmune/inflammation. Each sponsor is represented by a bar chart, where the height of the bar corresponds to the success rate.</p>
+<p>Eli Lilly has the highest success rate among the sponsors in the autoimmune/inflammation field, followed by Novartis and Vertex Pharmaceuticals.</p>
+<p>Chiesi has the lowest success rate among the sponsors, indicating a relatively lower rate of successful trials in this field.</p>
+<p>GlaxoSmithKline, AstraZeneca, Boehringer Ingelheim, Bristol-Myers Squibb, and Roche have success rates that range between 15% and 21.6%.</p>
+<p>Overall, the chart effectively showcases the success rates of different sponsors in conducting trials in the field of autoimmune/inflammation. It helps identify sponsors with higher or lower success rates, providing insights into their performance in conducting successful trials in this particular domain.</p>
+
+</div><div class="cell code-cell code-cell-no-input">
+
+<hr class="output-separator">
+
+<div class="">
+<div>                            <div id="d85d17e6-5f49-41ae-a234-de6b2a5aa88e" class="plotly-graph-div" style="height:525px; width:100%;"></div>            <script type="text/javascript">                require(["plotly"], function(Plotly) {                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("d85d17e6-5f49-41ae-a234-de6b2a5aa88e")) {                    Plotly.newPlot(                        "d85d17e6-5f49-41ae-a234-de6b2a5aa88e",                        [{"name":"Completed. Negative outcome/primary endpoint(s) not met","x":["Novo Nordisk","Eli Lilly","AstraZeneca","Pfizer","Takeda","Sanofi","Novartis","GlaxoSmithKline","Astellas","Boehringer Ingelheim"],"y":[0,0,2,1,0,2,0,0,0,0],"type":"bar"},{"name":"Completed. Outcome indeterminate","x":["Novo Nordisk","Eli Lilly","AstraZeneca","Pfizer","Takeda","Sanofi","Novartis","GlaxoSmithKline","Astellas","Boehringer Ingelheim"],"y":[3,0,1,4,1,1,0,3,0,1],"type":"bar"},{"name":"Completed. Outcome unknown","x":["Novo Nordisk","Eli Lilly","AstraZeneca","Pfizer","Takeda","Sanofi","Novartis","GlaxoSmithKline","Astellas","Boehringer Ingelheim"],"y":[14,7,11,3,6,8,11,2,2,0],"type":"bar"},{"name":"Completed. Early positive outcome","x":["Novo Nordisk","Eli Lilly","AstraZeneca","Pfizer","Takeda","Sanofi","Novartis","GlaxoSmithKline","Astellas","Boehringer Ingelheim"],"y":[0,0,0,0,0,0,1,0,0,0],"type":"bar"},{"name":"Completed. Positive outcome/primary endpoint(s) met","x":["Novo Nordisk","Eli Lilly","AstraZeneca","Pfizer","Takeda","Sanofi","Novartis","GlaxoSmithKline","Astellas","Boehringer Ingelheim"],"y":[18,13,16,3,3,3,3,2,8,5],"type":"bar"},{"name":"NA","x":["Novo Nordisk","Eli Lilly","AstraZeneca","Pfizer","Takeda","Sanofi","Novartis","GlaxoSmithKline","Astellas","Boehringer Ingelheim"],"y":[13,21,2,13,11,6,3,6,2,6],"type":"bar"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"title":{"text":"Trial outcome for Metabolic/Endocrinology by Sponsor and Phases"},"xaxis":{"title":{"text":"Sponsor"}},"yaxis":{"title":{"text":"Number of Trials"}},"barmode":"stack"},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('d85d17e6-5f49-41ae-a234-de6b2a5aa88e');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };                });            </script>        </div>
+</div>
+
+
+</div>
+<div class="cell cell-markdown">
+<p>The chart represents the trial outcomes for sponsors in the field of metabolic/endocrinology. Each sponsor is represented by a bar chart, where the height of the bar corresponds to the number of trials in each outcome category.</p>
+<p>Astellas has the highest success rate among the sponsors in the metabolic/endocrinology field, followed by Boehringer Ingelheim and AstraZeneca.</p>
+<p>Pfizer has the lowest success rate among the sponsors, indicating a relatively lower rate of successful trials in this field.</p>
+<p>Novartis, GlaxoSmithKline, Sanofi, Eli Lilly, and Novo Nordisk have success rates that range between 15% and 37.5%.</p>
+<p>Overall, the chart effectively showcases the trial outcomes for different sponsors in the field of metabolic/endocrinology. It helps identify sponsors with higher or lower success rates, providing insights into their performance in conducting successful trials in this particular domain.</p>
+
+</div><div class="cell code-cell code-cell-no-input">
+
+<hr class="output-separator">
+
+<div class="">
+<div>                            <div id="793c0492-2c5a-4e2c-a6a1-210eb2eac58c" class="plotly-graph-div" style="height:525px; width:100%;"></div>            <script type="text/javascript">                require(["plotly"], function(Plotly) {                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("793c0492-2c5a-4e2c-a6a1-210eb2eac58c")) {                    Plotly.newPlot(                        "793c0492-2c5a-4e2c-a6a1-210eb2eac58c",                        [{"alignmentgroup":"True","hovertemplate":"Sponsor=%{x}<br>Success Rate=%{y}<extra></extra>","legendgroup":"Novo Nordisk","marker":{"color":"#636efa","pattern":{"shape":""}},"name":"Novo Nordisk","offsetgroup":"Novo Nordisk","orientation":"v","showlegend":true,"textposition":"auto","x":["Novo Nordisk"],"xaxis":"x","y":[37.5],"yaxis":"y","type":"bar"},{"alignmentgroup":"True","hovertemplate":"Sponsor=%{x}<br>Success Rate=%{y}<extra></extra>","legendgroup":"Eli Lilly","marker":{"color":"#EF553B","pattern":{"shape":""}},"name":"Eli Lilly","offsetgroup":"Eli Lilly","orientation":"v","showlegend":true,"textposition":"auto","x":["Eli Lilly"],"xaxis":"x","y":[31.7],"yaxis":"y","type":"bar"},{"alignmentgroup":"True","hovertemplate":"Sponsor=%{x}<br>Success Rate=%{y}<extra></extra>","legendgroup":"AstraZeneca","marker":{"color":"#00cc96","pattern":{"shape":""}},"name":"AstraZeneca","offsetgroup":"AstraZeneca","orientation":"v","showlegend":true,"textposition":"auto","x":["AstraZeneca"],"xaxis":"x","y":[50.0],"yaxis":"y","type":"bar"},{"alignmentgroup":"True","hovertemplate":"Sponsor=%{x}<br>Success Rate=%{y}<extra></extra>","legendgroup":"Pfizer","marker":{"color":"#ab63fa","pattern":{"shape":""}},"name":"Pfizer","offsetgroup":"Pfizer","orientation":"v","showlegend":true,"textposition":"auto","x":["Pfizer"],"xaxis":"x","y":[12.5],"yaxis":"y","type":"bar"},{"alignmentgroup":"True","hovertemplate":"Sponsor=%{x}<br>Success Rate=%{y}<extra></extra>","legendgroup":"Takeda","marker":{"color":"#FFA15A","pattern":{"shape":""}},"name":"Takeda","offsetgroup":"Takeda","orientation":"v","showlegend":true,"textposition":"auto","x":["Takeda"],"xaxis":"x","y":[14.3],"yaxis":"y","type":"bar"},{"alignmentgroup":"True","hovertemplate":"Sponsor=%{x}<br>Success Rate=%{y}<extra></extra>","legendgroup":"Sanofi","marker":{"color":"#19d3f3","pattern":{"shape":""}},"name":"Sanofi","offsetgroup":"Sanofi","orientation":"v","showlegend":true,"textposition":"auto","x":["Sanofi"],"xaxis":"x","y":[15.0],"yaxis":"y","type":"bar"},{"alignmentgroup":"True","hovertemplate":"Sponsor=%{x}<br>Success Rate=%{y}<extra></extra>","legendgroup":"Novartis","marker":{"color":"#FF6692","pattern":{"shape":""}},"name":"Novartis","offsetgroup":"Novartis","orientation":"v","showlegend":true,"textposition":"auto","x":["Novartis"],"xaxis":"x","y":[16.7],"yaxis":"y","type":"bar"},{"alignmentgroup":"True","hovertemplate":"Sponsor=%{x}<br>Success Rate=%{y}<extra></extra>","legendgroup":"GlaxoSmithKline","marker":{"color":"#B6E880","pattern":{"shape":""}},"name":"GlaxoSmithKline","offsetgroup":"GlaxoSmithKline","orientation":"v","showlegend":true,"textposition":"auto","x":["GlaxoSmithKline"],"xaxis":"x","y":[15.4],"yaxis":"y","type":"bar"},{"alignmentgroup":"True","hovertemplate":"Sponsor=%{x}<br>Success Rate=%{y}<extra></extra>","legendgroup":"Astellas","marker":{"color":"#FF97FF","pattern":{"shape":""}},"name":"Astellas","offsetgroup":"Astellas","orientation":"v","showlegend":true,"textposition":"auto","x":["Astellas"],"xaxis":"x","y":[66.7],"yaxis":"y","type":"bar"},{"alignmentgroup":"True","hovertemplate":"Sponsor=%{x}<br>Success Rate=%{y}<extra></extra>","legendgroup":"Boehringer Ingelheim","marker":{"color":"#FECB52","pattern":{"shape":""}},"name":"Boehringer Ingelheim","offsetgroup":"Boehringer Ingelheim","orientation":"v","showlegend":true,"textposition":"auto","x":["Boehringer Ingelheim"],"xaxis":"x","y":[41.7],"yaxis":"y","type":"bar"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"xaxis":{"anchor":"y","domain":[0.0,1.0],"title":{"text":"Sponsor"},"categoryorder":"array","categoryarray":["Novo Nordisk","Eli Lilly","AstraZeneca","Pfizer","Takeda","Sanofi","Novartis","GlaxoSmithKline","Astellas","Boehringer Ingelheim"]},"yaxis":{"anchor":"x","domain":[0.0,1.0],"title":{"text":"Success Rate"}},"legend":{"title":{"text":"Sponsor"},"tracegroupgap":0},"title":{"text":"Success rate For Autoimmune/Inflammation by Sponsor"},"barmode":"relative"},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('793c0492-2c5a-4e2c-a6a1-210eb2eac58c');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };                });            </script>        </div>
+</div>
+
+
+</div>
+<div class="cell cell-markdown">
+<p>The chart displays the success rates for autoimmune/inflammation trials conducted by different sponsors. Each sponsor is represented by a bar, and the height of the bar represents the success rate. The success rate is calculated as the percentage of trials with a positive outcome or primary endpoint(s) met.</p>
+<p>Novo Nordisk, AstraZeneca, and Astellas have the highest success rates among the sponsors, with rates of 50.0%, 41.7%, and 66.7% respectively. This indicates that a relatively high proportion of their trials resulted in positive outcomes or met their primary endpoint(s).</p>
+<p>Pfizer, Takeda, Sanofi, and Novartis have success rates ranging from 14.3% to 16.7%. While their success rates are lower compared to the top performers, they still have a moderate level of success in these types of trials.</p>
+<p>Eli Lilly, GlaxoSmithKline, and Boehringer Ingelheim have success rates between 15.0% and 31.7%, indicating a relatively lower success rate compared to some other sponsors.</p>
+<p>The number of trials conducted by each sponsor varies, with Novo Nordisk having the highest number of trials (48) and Astellas having the fewest (12). The total number of trials may impact the confidence and reliability of the success rates.</p>
+<p>It's worth noting that some sponsors have a significant number of trials with outcomes that are unknown, indeterminate, or have an early positive outcome. These trials are not considered in the success rate calculation. For example, Eli Lilly has 21 trials with an unknown outcome, which may contribute to the lower success rate.</p>
+<p>Overall, this chart provides a snapshot of the success rates for autoimmune/inflammation trials conducted by different sponsors. However, it's important to consider other factors such as the sample size, trial design, and specific therapeutic areas within autoimmune/inflammation when evaluating the success rates.</p>
+
+</div>
+<div class="cell cell-markdown">
+<h1 id="Terminated-trials">Terminated trials<a class="anchor-link" href="#Terminated-trials">&#182;</a></h1>
+</div><div class="cell code-cell code-cell-no-input">
+
+<hr class="output-separator">
+
+<div class="">
+<div>                            <div id="0e14d782-7eec-4192-9a6d-044c39c1cfe1" class="plotly-graph-div" style="height:525px; width:100%;"></div>            <script type="text/javascript">                require(["plotly"], function(Plotly) {                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("0e14d782-7eec-4192-9a6d-044c39c1cfe1")) {                    Plotly.newPlot(                        "0e14d782-7eec-4192-9a6d-044c39c1cfe1",                        [{"name":"Phase I","x":["Oncology","CNS","Autoimmune/Inflammation","Infectious Disease","Metabolic/Endocrinology","Cardiovascular","Ophthalmology","Genitourinary","Vaccines"],"y":[101,19,13,13,13,8,1,2,6],"type":"bar"},{"name":"Phase I/II","x":["Oncology","CNS","Autoimmune/Inflammation","Infectious Disease","Metabolic/Endocrinology","Cardiovascular","Ophthalmology","Genitourinary","Vaccines"],"y":[72,6,8,3,3,2,1,5,1],"type":"bar"},{"name":"Phase II","x":["Oncology","CNS","Autoimmune/Inflammation","Infectious Disease","Metabolic/Endocrinology","Cardiovascular","Ophthalmology","Genitourinary","Vaccines"],"y":[150,40,50,26,18,16,13,1,7],"type":"bar"},{"name":"Phase II/III","x":["Oncology","CNS","Autoimmune/Inflammation","Infectious Disease","Metabolic/Endocrinology","Cardiovascular","Ophthalmology","Genitourinary","Vaccines"],"y":[2.0,7.0,4.0,4.0,2.0,2.0,8.0,4.0,null],"type":"bar"},{"name":"Phase III","x":["Oncology","CNS","Autoimmune/Inflammation","Infectious Disease","Metabolic/Endocrinology","Cardiovascular","Ophthalmology","Genitourinary","Vaccines"],"y":[42.0,40.0,26.0,8.0,11.0,17.0,23.0,12.0,null],"type":"bar"},{"name":"Phase III/IV","x":["Oncology","CNS","Autoimmune/Inflammation","Infectious Disease","Metabolic/Endocrinology","Cardiovascular","Ophthalmology","Genitourinary","Vaccines"],"y":[1.0,112.0,101.0,54.0,47.0,45.0,null,null,null],"type":"bar"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"title":{"text":"Terminated trials by therapeutic Areas by Phases"},"xaxis":{"title":{"text":"Therapeutic Area"}},"yaxis":{"title":{"text":"Number of Trials"}},"barmode":"stack"},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('0e14d782-7eec-4192-9a6d-044c39c1cfe1');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };                });            </script>        </div>
+</div>
+
+
+</div>
+<div class="cell cell-markdown">
+<p>The chart provides information on the number of terminated trials by therapeutic area and phase. Each therapeutic area is represented by a group of bars, and each bar within the group represents a different phase of the trial.</p>
+<p>Oncology has the highest number of terminated trials across all phases, with a total of 368 trials. This indicates that a significant amount of research and development efforts have been focused on oncology treatments.</p>
+<p>The CNS (Central Nervous System) therapeutic area has the second highest number of terminated trials, with 112 trials in total. This suggests that there has been substantial research in this area, although it is lower than the number of oncology trials.</p>
+<p>Autoimmune/Inflammation and Infectious Disease therapeutic areas have relatively fewer terminated trials compared to oncology and CNS, with 101 and 54 trials respectively.</p>
+<p>Among the phases, Phase II trials have the highest number of terminated trials across most therapeutic areas. This may suggest that a considerable number of trials are terminated during or after Phase II, indicating challenges or lack of effectiveness in these stages of development.</p>
+<p>The Phase I/II and Phase III/IV categories have fewer terminated trials compared to other phases in most therapeutic areas. This could indicate that these combined phases have a higher success rate or face fewer challenges leading to termination.</p>
+<p>The Ophthalmology and Genitourinary therapeutic areas have a relatively low number of terminated trials across all phases, suggesting a potentially more successful development process in these areas.</p>
+
+</div><div class="cell code-cell code-cell-no-input">
+
+<hr class="output-separator">
+
+<div class="">
+<div>                            <div id="e53f7f23-af02-4987-9dc7-a723098cdecd" class="plotly-graph-div" style="height:525px; width:100%;"></div>            <script type="text/javascript">                require(["plotly"], function(Plotly) {                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("e53f7f23-af02-4987-9dc7-a723098cdecd")) {                    Plotly.newPlot(                        "e53f7f23-af02-4987-9dc7-a723098cdecd",                        [{"name":"Phase I","x":["Non-Hodgkin\u2019s lymphoma","Non-small cell lung cancer","Colorectal cancer","Breast cancer","Unspecified solid tumor","Alzheimer\u2019s disease","Melanoma","Pancreatic cancer","Respiratory infections","Ovarian cancer","Prostate cancer"],"y":[14,21,21,15,18,11,6,13,7,10,9],"type":"bar"},{"name":"Phase I/II","x":["Non-Hodgkin\u2019s lymphoma","Non-small cell lung cancer","Colorectal cancer","Breast cancer","Unspecified solid tumor","Alzheimer\u2019s disease","Melanoma","Pancreatic cancer","Respiratory infections","Ovarian cancer","Prostate cancer"],"y":[15,15,5,7,12,4,8,3,1,6,5],"type":"bar"},{"name":"Phase II","x":["Non-Hodgkin\u2019s lymphoma","Non-small cell lung cancer","Colorectal cancer","Breast cancer","Unspecified solid tumor","Alzheimer\u2019s disease","Melanoma","Pancreatic cancer","Respiratory infections","Ovarian cancer","Prostate cancer"],"y":[26,14,17,17,5,4,15,7,11,4,5],"type":"bar"},{"name":"Phase II/III","x":["Non-Hodgkin\u2019s lymphoma","Non-small cell lung cancer","Colorectal cancer","Breast cancer","Unspecified solid tumor","Alzheimer\u2019s disease","Melanoma","Pancreatic cancer","Respiratory infections","Ovarian cancer","Prostate cancer"],"y":[4.0,6.0,1.0,1.0,null,12.0,1.0,1.0,1.0,2.0,1.0],"type":"bar"},{"name":"Phase III","x":["Non-Hodgkin\u2019s lymphoma","Non-small cell lung cancer","Colorectal cancer","Breast cancer","Unspecified solid tumor","Alzheimer\u2019s disease","Melanoma","Pancreatic cancer","Respiratory infections","Ovarian cancer","Prostate cancer"],"y":[null,null,null,1.0,null,null,null,null,2.0,null,null],"type":"bar"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"title":{"text":"Diseases with \u226520 terminated trials by phases"},"xaxis":{"title":{"text":"Disease"}},"yaxis":{"title":{"text":"Number of Trials"}},"barmode":"stack"},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('e53f7f23-af02-4987-9dc7-a723098cdecd');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };                });            </script>        </div>
+</div>
+
+
+</div>
+<div class="cell cell-markdown">
+<p>The chart provides information on diseases with at least 20 terminated trials, categorized by phase. Each disease is represented by a group of bars, and each bar within the group represents a different phase of the trial.</p>
+<p>Non-small cell lung cancer, Colorectal cancer, and Non-Hodgkin's lymphoma have the highest number of terminated trials among the diseases listed, with 56, 44, and 59 trials respectively. These diseases have been the focus of a significant number of clinical trials, but a substantial portion of them have been terminated.</p>
+<p>Breast cancer and Unspecified solid tumor also have a relatively high number of terminated trials, with 41 and 35 trials respectively.</p>
+<p>For some diseases, such as Ovarian cancer, Prostate cancer, and Respiratory infections, the number of terminated trials is relatively lower, with 22 trials each.</p>
+<p>Phase II trials have the highest number of terminated trials across most diseases, suggesting that a considerable number of trials face challenges or lack of efficacy in this phase.</p>
+<p>Phase I/II and Phase III trials show a lower number of terminated trials compared to Phase II across most diseases. This may indicate that combined Phase I/II and Phase III trials have a higher success rate or face fewer challenges leading to termination.</p>
+<p>Alzheimer's disease and Melanoma have a notable number of terminated trials in Phase II/III, which suggests challenges in transitioning from Phase II to Phase III.</p>
+<p>Some diseases, such as Alzheimer's disease, Respiratory infections, and Ovarian cancer, have a higher number of trials in earlier phases (Phase I/II and Phase II), indicating a more exploratory stage of research in these diseases.</p>
+
+</div>
+<div class="cell cell-markdown">
+<h1 id="Roles-of-AI-and-machine-learning-in-success-rates-of-clinical-trials-in-the-pharmaceutical-industry">Roles of AI and machine learning in success rates of clinical trials in the pharmaceutical industry<a class="anchor-link" href="#Roles-of-AI-and-machine-learning-in-success-rates-of-clinical-trials-in-the-pharmaceutical-industry">&#182;</a></h1><p>The information presented here demonstrates that machine learning and AI play important roles in increasing the success rate of clinical trials and medical research. Here are some concrete examples of how the aforementioned technologies help boost success rates:</p>
+<p>Successful therapy areas can be identified by using machine learning algorithms to examine past clinical trial data for repeatable patterns and trends. Finding high-probability zones allows researchers to concentrate their time and energy where it will have the greatest impact.</p>
+<p>Treatment Strategies Tailored to the Individual Patient Large amounts of patient data, such as demographics, biomarkers, and treatment outcomes, can be analyzed by machine learning algorithms to reveal opportunities for individualized care. Researchers can improve the chances of a successful intervention by targeting certain patient subgroups, which requires an understanding of the individual factors that determine therapy responses.</p>
+<p>Machine learning algorithms can sift through massive datasets in search of patterns that indicate a response to treatment or the development of a disease, or biomarkers. Researchers can create more effective treatments and identify populations of patients who are more likely to benefit from interventions if they can uncover biomarkers that correlate with positive results.</p>
+<p>To improve future trial designs, machine learning algorithms can examine collected data from previous trials. These algorithms can aid in the design of more efficient and effective trials by taking into account patient demographics, disease features, and treatment procedures. Trial designs that minimize bias and maximize statistical power improve the chances of identifying treatment effects.</p>
+<p>It is possible to forecast outcomes like treatment response or adverse events using machine learning algorithms applied to a wide variety of data sources, which is known as predictive analytics. Researchers can determine which patients are most likely to benefit from a given medication and reduce the likelihood of undesirable side effects by employing predictive analytics. Clinical trial success rates may improve with this kind of streamlined strategy.</p>
+<p>It is possible to implement adaptive trial designs and real-time monitoring of patient data with the help of machine learning algorithms. Researchers can improve outcomes and success rates by continuously assessing data and making improvements to treatment methods or study criteria.</p>
+
+</div>
+<div class="cell cell-markdown">
+<h1 id="Takeaways">Takeaways<a class="anchor-link" href="#Takeaways">&#182;</a></h1>
+</div>
+<div class="cell cell-markdown">
+<p>In conclusion, the field of oncology has consistently been the most prominent area of medical research, with the highest number of clinical trials conducted throughout the years. Autoimmune/Inflammation and Metabolic/Endocrinology therapeutic areas have consistently ranked second and third in terms of clinical trial numbers, although their positions varied slightly over time. CNS and Cardiovascular areas showed some variability in rankings. Infectious Diseases, Vaccines, Genitourinary, and Ophthalmology therapeutic areas consistently ranked lower in terms of trial counts.</p>
+<p>Among the listed diseases, anemia had the highest number of total trials, followed by breast cancer and non-small cell lung cancer, indicating significant research focus on these diseases. Anemia also had the highest success rate, followed by breast cancer and non-small cell lung cancer, indicating relatively high percentages of successful trials for these diseases. The ranking of diseases based on success rates did not follow the same order as the ranking based on total trial counts, highlighting that success rates do not necessarily correlate with the number of trials conducted.</p>
+<p>All Other Pharma and Top 20 Pharma were the sponsor types with the highest total trial counts, indicating their significant involvement in clinical trials. Generics, Academic, and Government Agencies also showed substantial involvement. The sponsor types varied in their concentration of trials across different phases, with All Other Pharma and Top 20 Pharma having the highest number of trials across all phases, particularly in Phase II. Astellas, Celgene, Merck &amp; Co., Novartis, and Eisai consistently had higher success rates across all phases compared to other sponsors.</p>
+<p>The success rates for oncology trials vary among sponsors. Novartis has the highest success rate of 38.9%, followed by Vertex Pharmaceuticals (37.0%) and GlaxoSmithKline (26.7%). Chiesi has the lowest success rate at 6.7%. However, it's important to note that success rates alone do not provide a complete picture of the overall performance of sponsors in the field of oncology.</p>
+<p>The outcomes of trials in the autoimmune/inflammation category also show variation among sponsors. The number of trials in different phases and their respective outcomes differ across sponsors. Further analysis is required to assess the success rates and overall performance of sponsors in this therapeutic area.</p>
+<p>Oncology stands out with the highest number of terminated trials, indicating a significant focus on oncology treatments. CNS follows with a substantial number of terminated trials. Autoimmune/Inflammation and Infectious Disease have comparatively fewer terminated trials. Phase II trials have the most terminations across most therapeutic areas, suggesting challenges or lack of efficacy in this phase. Combined Phase I/II and Phase III/IV trials have fewer terminations, potentially indicating higher success rates. Ophthalmology and Genitourinary have relatively low terminated trial counts. Among diseases, Non-small cell lung cancer, Colorectal cancer, and Non-Hodgkin's lymphoma have the highest number of terminations. Breast cancer and Unspecified solid tumor also have relatively high terminations. Phase II trials consistently have the highest terminations among diseases, while Phase I/II and Phase III trials show fewer terminations. Alzheimer's disease and Melanoma face challenges in transitioning from Phase II to Phase III. Some diseases have a higher number of trials in earlier phases, suggesting an exploratory stage.</p>
+
+</div>
+  </div>
+</body>
+
+
+
+
+</html>
